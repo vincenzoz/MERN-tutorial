@@ -1,0 +1,22 @@
+{
+  "name": "mern-stack-tutorial",
+  "version": "1.0.0",
+  "description": "Learning the MERN stack",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "babel src --out-dir public"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1"
+  }
+}
