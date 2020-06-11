@@ -20,36 +20,34 @@ class IssueAdd extends React.Component {
 }
 class IssueRow extends React.Component {
   render() {
-    const style = this.props.rowStyle;
     const issue = this.props.issue;
 
     return (
       <tr>
-        <td style={style}>{issue.id}</td>
-        <td style={style}>{issue.title}</td>
-        <td style={style}>{issue.created.toDateString()}</td>
-        <td style={style}>{issue.due ? issue.due.toDateString() : ''}</td>
-        <td style={style}>{issue.owner}</td>
-        <td style={style}>{issue.effort}</td>
+        <td>{issue.id}</td>
+        <td>{issue.title}</td>
+        <td>{issue.created.toDateString()}</td>
+        <td>{issue.due ? issue.due.toDateString() : ''}</td>
+        <td>{issue.owner}</td>
+        <td>{issue.effort}</td>
       </tr>
     )
   }
 }
 class IssueTable extends React.Component {
   render() {
-    const rowStyle = {border: "1px solid silver", padding: 4};
     const issueRows = issueList.map(issue => 
-    <IssueRow key={issue.id} rowStyle={rowStyle} issue={issue} />);
+    <IssueRow key={issue.id} issue={issue} />);
     return (
-      <table style={{borderCollapse: "collapse"}}>
+      <table className="bordered-table">
         <thead>
           <tr>
-            <th style={rowStyle}>ID</th>
-            <th style={rowStyle}>Title</th>
-            <th style={rowStyle}>Created</th>
-            <th style={rowStyle}>Due date</th>
-            <th style={rowStyle}>Author</th>
-            <th style={rowStyle}>Effort</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Created</th>
+            <th>Due date</th>
+            <th>Author</th>
+            <th>Effort</th>
           </tr>
         </thead>
         <tbody>
