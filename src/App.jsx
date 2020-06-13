@@ -1,4 +1,4 @@
-const issueList = [
+const initialIssueList = [
   {
   id:1, status: 'New', owner: 'Vincenzo', effort: 10,
   created: new Date('2020-06-08'), due: undefined,
@@ -7,6 +7,10 @@ const issueList = [
   created: new Date('2020-06-01'), due: new Date('2020-06-05'),
   title: 'Add user nationality'}
 ];
+
+const sampleIssue = {
+  status: 'New', owner: 'Pieta', title: 'Issue list should be updated after a change'
+};
 
 class IssueFilter extends React.Component {
     render() {
@@ -35,8 +39,19 @@ class IssueRow extends React.Component {
   }
 }
 class IssueTable extends React.Component {
+  
+  constructor() {
+    console.log('constructor');
+    super();
+    this.state = {issueList: []}
+    setTimeout(() => {
+      this.createIssue(sampleIssue);
+    }, 2000);
+    
+
+  }
   render() {
-    const issueRows = issueList.map(issue => 
+    const issueRows = this.state.issueList.map(issue => 
     <IssueRow key={issue.id} issue={issue} />);
     return (
       <table className="bordered-table">
@@ -55,6 +70,21 @@ class IssueTable extends React.Component {
         </tbody>
       </table>
     )
+  }
+  componentDidMount() {
+    this.loadData();
+  }
+  loadData() {
+    setTimeout(() => {
+      this.setState({issueList: initialIssueList});
+    }, 1000);
+  }
+  createIssue(issue) {
+    issue.id = this.state.issueList.length + 1;
+    issue.created = new Date();
+    const newIssueList = this.state.issueList.slice();
+    newIssueList.push(issue)
+    this.setState({issueList: newIssueList});
   }
 }
 class IssueList extends React.Component {
