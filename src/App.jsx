@@ -12,32 +12,33 @@ const sampleIssue = {
   status: 'New', owner: 'Pieta', title: 'Issue list should be updated after a change'
 };
 
+
+
+class IssueList extends React.Component {
+  render() {
+    return (
+    <React.Fragment>
+      <h1>Issue List</h1>
+      <IssueFilter />
+      <hr />
+      <IssueTable />
+      <hr />
+      <IssueAdd />
+    </React.Fragment>
+    );
+  }
+}
+
+
+
 class IssueFilter extends React.Component {
     render() {
       return <div>ISSUE FILTER</div>
     }
-  }
-class IssueAdd extends React.Component {
-  render() {
-    return <div>ISSUE ADD</div>
-  }
 }
-class IssueRow extends React.Component {
-  render() {
-    const issue = this.props.issue;
 
-    return (
-      <tr>
-        <td>{issue.id}</td>
-        <td>{issue.title}</td>
-        <td>{issue.created.toDateString()}</td>
-        <td>{issue.due ? issue.due.toDateString() : ''}</td>
-        <td>{issue.owner}</td>
-        <td>{issue.effort}</td>
-      </tr>
-    )
-  }
-}
+
+
 class IssueTable extends React.Component {
   
   constructor() {
@@ -47,9 +48,8 @@ class IssueTable extends React.Component {
     setTimeout(() => {
       this.createIssue(sampleIssue);
     }, 2000);
-    
-
   }
+
   render() {
     const issueRows = this.state.issueList.map(issue => 
     <IssueRow key={issue.id} issue={issue} />);
@@ -71,14 +71,17 @@ class IssueTable extends React.Component {
       </table>
     )
   }
+
   componentDidMount() {
     this.loadData();
   }
+
   loadData() {
     setTimeout(() => {
       this.setState({issueList: initialIssueList});
     }, 1000);
   }
+
   createIssue(issue) {
     issue.id = this.state.issueList.length + 1;
     issue.created = new Date();
@@ -87,18 +90,32 @@ class IssueTable extends React.Component {
     this.setState({issueList: newIssueList});
   }
 }
-class IssueList extends React.Component {
+
+
+
+class IssueRow extends React.Component {
+
   render() {
+    const issue = this.props.issue;
     return (
-    <React.Fragment>
-      <h1>Issue List</h1>
-      <IssueFilter />
-      <hr />
-      <IssueTable />
-      <hr />
-      <IssueAdd />
-    </React.Fragment>
-    );
+      <tr>
+        <td>{issue.id}</td>
+        <td>{issue.title}</td>
+        <td>{issue.created.toDateString()}</td>
+        <td>{issue.due ? issue.due.toDateString() : ''}</td>
+        <td>{issue.owner}</td>
+        <td>{issue.effort}</td>
+      </tr>
+    )
+  }
+}
+
+
+
+class IssueAdd extends React.Component {
+  
+  render() {
+    return <div>ISSUE ADD</div>
   }
 }
 
