@@ -15,61 +15,11 @@ const sampleIssue = {
 
 
 class IssueList extends React.Component {
-  render() {
-    return (
-    <React.Fragment>
-      <h1>Issue List</h1>
-      <IssueFilter />
-      <hr />
-      <IssueTable />
-      <hr />
-      <IssueAdd />
-    </React.Fragment>
-    );
-  }
-}
-
-
-
-class IssueFilter extends React.Component {
-    render() {
-      return <div>ISSUE FILTER</div>
-    }
-}
-
-
-
-class IssueTable extends React.Component {
   
   constructor() {
-    console.log('constructor');
     super();
     this.state = {issueList: []}
-    setTimeout(() => {
-      this.createIssue(sampleIssue);
-    }, 2000);
-  }
-
-  render() {
-    const issueRows = this.state.issueList.map(issue => 
-    <IssueRow key={issue.id} issue={issue} />);
-    return (
-      <table className="bordered-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Created</th>
-            <th>Due date</th>
-            <th>Author</th>
-            <th>Effort</th>
-          </tr>
-        </thead>
-        <tbody>
-          {issueRows}
-        </tbody>
-      </table>
-    )
+    this.createIssue = this.createIssue.bind(this)
   }
 
   componentDidMount() {
@@ -88,6 +38,53 @@ class IssueTable extends React.Component {
     const newIssueList = this.state.issueList.slice();
     newIssueList.push(issue)
     this.setState({issueList: newIssueList});
+  }
+
+  render() {
+    return (
+    <React.Fragment>
+      <h1>Issue List</h1>
+      <IssueFilter />
+      <hr />
+      <IssueTable issueList={this.state.issueList} />
+      <hr />
+      <IssueAdd createIssue={this.createIssue}/>
+    </React.Fragment>
+    );
+  }
+}
+
+
+
+class IssueFilter extends React.Component {
+    render() {
+      return <div>ISSUE FILTER</div>
+    }
+}
+
+
+
+class IssueTable extends React.Component {
+  render() {
+    const issueRows = this.props.issueList.map(issue => 
+    <IssueRow key={issue.id} issue={issue} />);
+    return (
+      <table className="bordered-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Created</th>
+            <th>Due date</th>
+            <th>Author</th>
+            <th>Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          {issueRows}
+        </tbody>
+      </table>
+    )
   }
 }
 
@@ -114,6 +111,13 @@ class IssueRow extends React.Component {
 
 class IssueAdd extends React.Component {
   
+  constructor() {
+    super();
+    setTimeout(() => {
+      this.props.createIssue(sampleIssue);
+    }, 2000);
+  }
+
   render() {
     return <div>ISSUE ADD</div>
   }
