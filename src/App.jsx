@@ -64,48 +64,46 @@ class IssueFilter extends React.Component {
 
 
 
-class IssueTable extends React.Component {
-  render() {
-    const issueRows = this.props.issueList.map(issue => 
-    <IssueRow key={issue.id} issue={issue} />);
-    return (
-      <table className="bordered-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Created</th>
-            <th>Due date</th>
-            <th>Author</th>
-            <th>Effort</th>
-          </tr>
-        </thead>
+
+function IssueTable(props) {
+  const issueRows = props.issueList.map(issue => 
+  <IssueRow key={issue.id} issue={issue} />);
+  return (
+    <table className="bordered-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Created</th>
+          <th>Due date</th>
+          <th>Author</th>
+          <th>Effort</th>
+        </tr>
+      </thead>
         <tbody>
           {issueRows}
         </tbody>
-      </table>
-    )
-  }
+    </table>
+  )
 }
 
 
 
-class IssueRow extends React.Component {
 
-  render() {
-    const issue = this.props.issue;
-    return (
-      <tr>
-        <td>{issue.id}</td>
-        <td>{issue.title}</td>
-        <td>{issue.created.toDateString()}</td>
-        <td>{issue.due ? issue.due.toDateString() : ''}</td>
-        <td>{issue.owner}</td>
-        <td>{issue.effort}</td>
-      </tr>
-    )
-  }
+function IssueRow(props) {
+  const issue = props.issue;
+  return (
+    <tr>
+      <td>{issue.id}</td>
+      <td>{issue.title}</td>
+      <td>{issue.created.toDateString()}</td>
+      <td>{issue.due ? issue.due.toDateString() : ''}</td>
+      <td>{issue.owner}</td>
+      <td>{issue.effort}</td>
+    </tr>
+  )
 }
+
 
 
 
