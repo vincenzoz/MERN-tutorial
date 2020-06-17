@@ -1,13 +1,3 @@
-const initialIssueList = [
-  {
-  id:1, status: 'New', owner: 'Vincenzo', effort: 10,
-  created: new Date('2020-06-08'), due: undefined,
-  title: 'Display the user name on the home page'},
-  {id:2, status: 'Assigned', owner: 'Mark', effort: 5,
-  created: new Date('2020-06-01'), due: new Date('2020-06-05'),
-  title: 'Add user nationality'}
-];
-
 const sampleIssue = {
   status: 'New', owner: 'Pieta', title: 'Issue list should be updated after a change'
 };
@@ -26,10 +16,21 @@ class IssueList extends React.Component {
     this.loadData();
   }
 
-  loadData() {
-    setTimeout(() => {
-      this.setState({issueList: initialIssueList});
-    }, 1000);
+  async loadData() {
+    const query = `query {
+      issueList {
+        id title status owner created effort due
+      }
+    }`;
+
+    const response = await fetch('/graphql', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query})
+    });
+
+    const result = await response.json();
+    this.setState({issueList: result.data.issueList});
   }
 
   createIssue(issue) {
@@ -96,8 +97,8 @@ function IssueRow(props) {
     <tr>
       <td>{issue.id}</td>
       <td>{issue.title}</td>
-      <td>{issue.created.toDateString()}</td>
-      <td>{issue.due ? issue.due.toDateString() : ''}</td>
+      <td>{issue.created}</td>
+      <td>{issue.due}</td>
       <td>{issue.owner}</td>
       <td>{issue.effort}</td>
     </tr>
