@@ -9,10 +9,21 @@ type Issue {
     created: GraphQLDate!
     due: GraphQLDate
 }
+
+input IssueInputs {
+    title: String!
+    status: String
+    owner: String
+    effort: Int
+    due: GraphQLDate
+}
+
 type Query {
     about: String!
     issueList: [Issue!]!
 }
+
 type Mutation {
     setAboutMessage(message: String!): String
+    issueAdd(issue: IssueInputs!): Issue!
 }
