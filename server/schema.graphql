@@ -3,7 +3,7 @@ scalar GraphQLDate
 type Issue {
     id: Int!
     title: String!
-    status: String!
+    status: StatusType!
     owner: String
     effort: Int
     created: GraphQLDate!
@@ -12,7 +12,7 @@ type Issue {
 
 input IssueInputs {
     title: String!
-    status: String
+    status: StatusType = New
     owner: String
     effort: Int
     due: GraphQLDate
@@ -26,4 +26,11 @@ type Query {
 type Mutation {
     setAboutMessage(message: String!): String
     issueAdd(issue: IssueInputs!): Issue!
+}
+
+enum StatusType {
+    New,
+    Assigned,
+    Fixed,
+    Closed
 }
