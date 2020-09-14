@@ -3,6 +3,8 @@ const { ApolloServer, UserInputError } = require('apollo-server-express');
 const fs = require('fs');
 const {GraphQLScalarType} = require('graphql');
 const {Kind} = require('graphql/language');
+const {MongoClient} = require('mongodb');
+
 
 const GraphQLDate = new GraphQLScalarType({
     name: 'GraphQLDate',
@@ -21,6 +23,9 @@ const GraphQLDate = new GraphQLScalarType({
         }
     },
 });
+
+const url = 'mongodb://localhost:27018/issuetracker';
+let db;
 
 let aboutMessage = "Issue Tracker  API v1.0";
 const issuesDB = [
@@ -62,8 +67,17 @@ function issueAdd(_, {issue}) {
     return issue;
 }
 
-function issueList() {
-    return issuesDB;
+async function issueList() {
+    const issues = await db.collection('issues').find({}).toArray();
+    return issues;
+}
+
+async function connectToDb() {
+    const client = new MongoClient(url, {useNewUrlParser:true});
+    await client.connect();
+    console.log('Connected to MongoDB at', url)
+    db = client.db();
+
 }
 
 function validateIssue(issue) {
@@ -95,11 +109,14 @@ app.use(express.static("public"));
 
 server.applyMiddleware({app, path:'/graphql'});
 
-const port = 2000;
-app.listen(port, ()=> {
-    console.log(`The server is listening on port ${port}`);
-});
 
-app.get('/hello', (req, res) => {
-    res.send("Hello world!!!");
-});
+(async function () {
+  try {
+    await connectToDb();
+    app.listen(3000, function () {
+      console.log('App started on port 3000');
+    });
+  } catch (err) {
+    console.log('ERROR:', err);
+  }
+})();
