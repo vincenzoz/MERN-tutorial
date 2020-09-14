@@ -17,10 +17,10 @@ docker run --name my_mongo_container -p 27018:27017 my_mongo_image
 
 # Database initialisation
 - Execute the interactive container shell
-docker exec -i my_mongo_container /bin/bash
+docker exec -it my_mongo_container /bin/bash
 
 - Execute the init script
 mongo issuetracker scripts/init.mongo.js
 
-Open compass and connect to
+- Open MongoDB compass and connect to
 mongodb://127.0.0.1:27018/issuetracker
